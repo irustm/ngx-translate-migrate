@@ -1,10 +1,7 @@
 import { ElementAst } from '@angular/compiler';
 import { DirectiveSymbol } from 'ngast';
 import { getPipeAst, PipeSourceAst } from './utils/pipe-ast';
-import { existsSync, writeFile, mkdirSync } from "fs";
-import * as replace from "replace";
-import * as path from "path";
-import { readFile, readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { CliConfig } from './models/models';
 
 export function findPipes(allDirectives: DirectiveSymbol[], config: CliConfig): void {
