@@ -4,13 +4,11 @@ import { getPipeAst, PipeSourceAst } from './utils/pipe-ast';
 import { readFileSync, writeFileSync } from 'fs';
 import { CliConfig } from './models/models';
 
-export function findPipes(allDirectives: DirectiveSymbol[], config: CliConfig): void {
+export function replacePipes(allDirectives: DirectiveSymbol[], config: CliConfig): void {
   const translates = getTranslatesSync(config.filePath);
   allDirectives.forEach(el => {
     try {
       if (el.isComponent()) {
-        // Component
-
         let translatePipes: PipeSourceAst[] = [];
         el.getTemplateAst().templateAst.forEach((element, i) => {
           translatePipes.push(...getPipeAst(element as ElementAst, 'translate'));
@@ -35,8 +33,8 @@ export function findPipes(allDirectives: DirectiveSymbol[], config: CliConfig): 
       }
     } catch (e) {
       // Component
+      // exception only componentß
       console.error(e);
-      // exception only component
     }
   });
 }

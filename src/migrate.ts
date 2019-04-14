@@ -4,7 +4,7 @@ import { existsSync, writeFile, mkdirSync } from "fs";
 import { ProjectSymbols } from "ngast";
 
 import { resourceResolver } from "./utils/resource";
-import * as findPipes from './findpipes';
+import { replacePipes } from './replace-pipes';
 import { CliConfig } from './models/models';
 
 const error = message => {
@@ -32,7 +32,7 @@ export function migrate() {
     allDirectives = allDirectives.filter(
       el => el.symbol.filePath.indexOf("node_modules") === -1
     );
-    findPipes.findPipes(allDirectives, config);
+    replacePipes(allDirectives, config);
   } else {
     error(parseError);
   }
