@@ -7,22 +7,31 @@ import { CliConfig } from './models/models';
 export function replacePipes(allDirectives: DirectiveSymbol[], config: CliConfig): void {
   const translates = getTranslatesSync(config.filePath);
   allDirectives.forEach(el => {
+    let url = null;
     try {
       if (el.isComponent()) {
         let translatePipes: PipeSourceAst[] = [];
+        url = el.getResolvedMetadata().templateUrl || el.symbol.filePath;
+        // console.log(el.getResolvedMetadata().styleUrls);
         el.getTemplateAst().templateAst.forEach((element, i) => {
           translatePipes.push(...getPipeAst(element as ElementAst, 'translate'));
         });
 
-        const url = el.getResolvedMetadata().templateUrl || el.symbol.filePath;
-        const replaces: { from: string; to: string }[] = translatePipes.map((pipe, i) => {
+        let replaces: { from: string; to: string }[] = translatePipes.map((pipe, i) => {
           const text = getParamWithString(translates, pipe.value)
-          return {
-            from: `>${pipe.source}`,
-            to: ` i18n>${text.trim()}`
-          };
+          if(text){
+            return {
+              from: `>${pipe.source}`,
+              to: ` i18n>${text.trim()}`
+            };
+          } else {
+            console.warn(`translate for pipe: ${pipe.value} not found`);
+            return null;
+          }
+          
         });
         let sourceCode = readFileSync(url).toString();
+        replaces = replaces.filter(Boolean);
         sourceCode = replacizeText(sourceCode, replaces);
         
         if (sourceCode !== null) {
@@ -34,6 +43,7 @@ export function replacePipes(allDirectives: DirectiveSymbol[], config: CliConfig
     } catch (e) {
       // Component
       // exception only componentß
+      console.log(url);
       console.error(e);
     }
   });
