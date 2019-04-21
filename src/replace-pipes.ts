@@ -3,6 +3,8 @@ import { DirectiveSymbol } from 'ngast';
 import { getPipeAst, PipeBoundText } from './utils/pipe-ast';
 import { readFileSync, writeFileSync } from 'fs';
 import { CliConfig } from './models/models';
+import { nodeToRange, getTextFromRange } from './utils/node-range';
+
 
 export function replacePipes(allDirectives: DirectiveSymbol[], config: CliConfig): void {
   const translates = getTranslatesSync(config.filePath);
@@ -12,11 +14,11 @@ export function replacePipes(allDirectives: DirectiveSymbol[], config: CliConfig
       if (el.isComponent()) {
         let translatePipes: PipeBoundText[] = [];
         url = el.getResolvedMetadata().templateUrl || el.symbol.filePath;
-        el.getTemplateAst().templateAst.forEach((element, i) => {
+        el.getTemplateAst().templateAst.forEach(element => {
           translatePipes.push(...getPipeAst(element as ElementAst, 'translate'));
         });
 
-        let replaces: { from: string; to: string }[] = translatePipes.map((pipe, i) => {
+        let replaces: { from: string; to: string }[] = translatePipes.map(pipe => {
           // get all pipes in one textBound source
           let replaceResult = pipe.source;
           pipe.pipeValues.forEach(pipeValue => {
@@ -30,9 +32,17 @@ export function replacePipes(allDirectives: DirectiveSymbol[], config: CliConfig
           });
           if(replaceResult !== pipe.source){
             const translateVars = `${pipe.pipeValues.map(el => el.value).join(',')}`;
+            const range = nodeToRange(pipe.parentNode);
+            const from = getTextFromRange(pipe.parentNode.sourceSpan.start.file.content, range[0], range[1]);
+            
+            // add i18n attrubute
+            let to = from.replace(`<${pipe.parentNode.name}`, `<${pipe.parentNode.name} i18n="${translateVars}"`);
+            // replace content
+            to = to.replace(pipe.source, replaceResult);
+
             return {
-              from: `>${pipe.source}`,
-              to: ` i18n="${translateVars}">${replaceResult}`
+              from,
+              to
             };
           } else {
             return null;

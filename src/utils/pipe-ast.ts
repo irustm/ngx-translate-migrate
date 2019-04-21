@@ -1,6 +1,7 @@
 import { ElementAst, Interpolation } from '@angular/compiler';
 export interface PipeBoundText {
   ast: Interpolation;
+  element: any;
   parentNode: ElementAst;
   source: string;
   pipeValues: PipeSourceAst[];
@@ -28,6 +29,7 @@ export function getPipeAst(element: ElementAst, pipeName = 'translate'): PipeBou
             });
             pipeBounds.push({
               ast: value.ast,
+              element: child,
               parentNode: element,
               source: value.source,
               pipeValues: pipesValues

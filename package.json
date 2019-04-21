@@ -1,6 +1,6 @@
 {
   "name": "ngx-translate-migrate",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Automate migrate from ngx-translate to i18n",
   "repository": {
     "type": "git",
@@ -27,9 +27,9 @@
     "test": "ts-node src/migrate-test.ts -p ../ngx-translate-migrate-test/tsconfig.json -f ../ngx-translate-migrate-test/src/assets/i18n/en.json"
   },
   "dependencies": {
-    "@angular/compiler": "~7.1.0",
-    "@angular/compiler-cli": "~7.1.0",
-    "@angular/core": "~7.1.0",
+    "@angular/compiler": "~7.2.13",
+    "@angular/compiler-cli": "~7.2.13",
+    "@angular/core": "~7.2.13",
     "chalk": "^2.4.1",
     "minimist": "^1.2.0",
     "ngast": "^0.2.4",
