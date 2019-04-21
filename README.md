@@ -1,6 +1,6 @@
 # ngx-translate-migrate
 
-Automate migrate from ngx-translate to i18n
+Automate migrate from `ngx-translate` to `Angular i18n`
 
 ## How to use 
 
