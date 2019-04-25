@@ -1,3 +1,7 @@
+<div style="text-align:center">
+<img src="https://raw.githubusercontent.com/irustm/ngx-translate-migrate/master/assets/migrate.png" alt="screen migrate ngx-translate to Angular i18n" width="500">
+</div>
+
 # ngx-translate-migrate
 
 Automate migrate from `ngx-translate` to `Angular i18n`
