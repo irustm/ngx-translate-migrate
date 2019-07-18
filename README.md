@@ -14,6 +14,10 @@ or to define a tsconfig
 
 `npx ngx-translate-migrate -p ./ngx-translate-all-test/tsconfig.json -f src/assets/i18n/main/ru.json`
  
+## Related projects
+
+- [ngx-translate-all](https://github.com/irustm/ngx-translate-all) - Automate translate Angular project
+
 
 ## License
 MIT
