@@ -29,7 +29,7 @@
   "dependencies": {
     "@angular/compiler": "~7.2.13",
     "@angular/compiler-cli": "~7.2.13",
-    "@angular/core": "~7.2.13",
+    "@angular/core": "~11.0.5",
     "chalk": "^2.4.1",
     "minimist": "^1.2.0",
     "ngast": "^0.2.4",
